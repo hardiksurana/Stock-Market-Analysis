@@ -1,0 +1,9 @@
+To export data from mongo collection to csv file:
+mongoexport --db dbms_mini_project --collection stocks --type=csv --fields "_id,Name,Code,Date,High,Low,Open,Close,Last,Total Trade Quantity" --out data.csv
+
+Queries:
+1. Searching by Stock Name/Code
+2. Searching by constraints of price: High, Low etc.
+3. Searching based on Date
+4. Grouping Data
+5.

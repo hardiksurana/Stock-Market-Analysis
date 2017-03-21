@@ -1,0 +1,94 @@
+/*
+
+//TODO
+(#) SIMPLE QUERIES: 
+
+1. Search based on parameters - 
+(a) Index & sector
+(b) Range of price
+(c) Name
+(d) Turnover
+
+//TODO
+(#) COMPLEX QUERIES:
+
+1. 52 week high and low
+
+2. Top gainers and losers - 
+(a) Weekly
+(b) Monthly
+(c) Annual
+
+3. Market Indicators
+(a) Index vs Individual stocks
+(b) Banks,Commodities
+ 
+*/
+
+############################################### SIMPLE QUERIES ##############################################
+
+1. (a) db.stocks.find({Sector:" {{ SECTOR }} "}).pretty();
+//INDEX
+	(#) List of all Sectors : db.stocks.distinct("Sector");	
+	[
+		"INDUSTRIAL MANUFACTURING",
+		"AUTOMOBILE",
+		"FINANCIAL SERVICES",
+		"PHARMA",
+		"CONSUMER GOODS",
+		"HEALTHCARE SERVICES",
+		"ENERGY",
+		"SERVICES",
+		"CONSTRUCTION",
+		"METALS",
+		"IT",
+		"CHEMICALS",
+		"CEMENT & CEMENT PRODUCTS",
+		"FERTILISERS & PESTICIDES",
+		"",
+		"TELECOM",
+		"MEDIA & ENTERTAINMENT",
+		"TEXTILES"
+	]
+	
+
+	Total = 153
+	
+	PHARMA = 15
+	CONSTRUCTION = 6
+	CONSUMER GOODS = 20
+	MEDIA & ENTERTAINMENT = 3
+	CHEMICALS = 2
+	AUTOMOBILE = 15
+	TELECOM = 5
+	IT = 8
+	TEXTILES = 3
+	ENERGY = 19
+	FINANCIAL SERVICES = 27
+	CEMENT & CEMENT PRODUCTS = 6
+	METALS = 9
+	INDUSTRIAL MANUFACTURING = 6
+	SERVICES = 5
+	FERTILISERS & PESTICIDES = 1
+	HEALTHCARE SERVICES = 1
+	"" = 2
+
+	
+   (b) db.stocks.find({"Last Traded Price": {$gt/$gte: "SOME VALUE" }}).pretty(); 
+//LESS THAN
+       db.stocks.find({"Last Traded Price": {$lt/$lte: "SOME VALUE" }}).pretty(); 
+//GREATER THAN
+       db.stocks.find({"Last Traded Price": {$gt: "{{ UPPER LIMIT }}" ,$lt: "{{ LOWER LIMIT }}" } }).pretty(); 
+//RANGE
+
+/* The fields can be changed wrt the data required by the user, i.e-"Last Traded Price" can be changed to any other field */
+
+
+   (c) db.stocks.find({"Company Name":" {{ COMPANY NAME }} "}).pretty();
+//COMPANY NAME	
+
+##########################################################################################################
+
+//FIXME : TELL ME ANY OTHER ADDITIONS IN SIMPLE QUERIES. I WILL DO THE COMPLEX QUERIES TOMMOROW !! 
+
+
