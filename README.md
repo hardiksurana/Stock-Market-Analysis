@@ -4,8 +4,12 @@ Part of DBMS Lab Course Mini-Project (UE15CS256)
 
 To run the application:
 1. Clone the repository.
-2.
+2. Type the following commands to install dependencies and launch the server.
 ```
 npm install
 nodemon
+```
+3. Open
+```
+localhost:3000
 ```
