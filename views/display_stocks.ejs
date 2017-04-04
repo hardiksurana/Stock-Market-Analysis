@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title><%= title %></title>
+    </head>
+    <body>
+        <h1><%= title %></h1>
+        <% for(var i=0; i<stocks.length; i++) {%>
+        <div class="stock">
+            <h3> Name: <%= stocks[i].Name %> </h3>
+            <p> High: <%= stocks[i].High %> </p>
+            <p> Low: <%= stocks[i].Low %> </p>
+            <p> Turnover: <%= stocks[i].Turnover_in_Lakhs %> </p>
+            <p> Timestamp: <%= stocks[i].date %> </p>
+        </div>
+        <% } %>
+    </body>
+</html>

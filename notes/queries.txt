@@ -1,9 +1,16 @@
 To export data from mongo collection to csv file:
 mongoexport --db dbms_mini_project --collection stocks --type=csv --fields "_id,Name,Code,Date,High,Low,Open,Close,Last,Total Trade Quantity" --out data.csv
 
+To update column names:
+db.stocks.updateMany({}, {$rename: {'Turnover (Lacs)' : 'Turnover_in_Lakhs'}});
+
 Queries:
-1. Searching by Stock Name/Code
-2. Searching by constraints of price: High, Low etc.
-3. Searching based on Date
-4. Grouping Data
-5.
+1. Searching for stock data based on stock name (should return only latest entry).
+2. Selecting stocks whose High, Low, Open or Close lies in a given range (should return 1 document per stock). Create a separate query for each column,
+3. Selecting stocks whose Turnover lies in a given range (should return 1 document per stock).
+4. Selecting stocks whose Total Trade Quantity lies in a given range (should return 1 document per stock).
+5. Searching for stock data based on Sector (should return 1 document per stock with latest data).
+6. Searching for stock data based on Index (should return 1 document per stock with latest data).
+7. Calculate total Turnover (in a given time frame) for a given stock.
+8. Calculate average volume of stocks traded in a given time-line for all stocks in a given sector.
+9. Find out Top Gainers and Losers (stocks which have maximum High and minimum Low price) for all stocks in a given sector.

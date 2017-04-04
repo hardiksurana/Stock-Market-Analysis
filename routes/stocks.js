@@ -15,10 +15,10 @@ router.get('/', function(req, res, next) {
             {
                 $group: {
                     _id: "$Name",
-                    date: {$last: '$Date'},
+                    date: {$last: '$date'},
                     High: {$last: '$High'},
                     Low: {$last: '$Low'},
-                    Date: {$last: '$Date'}
+                    Turnover_in_Lakhs: {$last: "$Turnover_in_Lakhs"}
                 }
             }
         ]).toArray(function(err, result){
@@ -34,7 +34,7 @@ router.get('/byName', function(req, res, next) {
         assert.equal(null, err);
         var col = db.collection('stocks');
         col.find(
-            {Name: "Max India Limited"})
+            {Name: "Tata Consultancy Services Limited"})
             .sort({Date: -1})
             .toArray(function (err, result) {
                 assert.equal(null, err);
@@ -59,10 +59,10 @@ router.get('/high', function(req, res, next) {
                 {
                     $group: {
                         _id: "$Name",
-                        date: {$last: '$Date'},
+                        date: {$last: '$date'},
                         High: {$last: '$High'},
                         Low: {$last: '$Low'},
-                        Date: {$last: '$Date'}
+                        Turnover_in_Lakhs: {$last: "$Turnover_in_Lakhs"}
                     }
                 }
             ])
@@ -80,7 +80,7 @@ router.get('/turnover', function(req, res, next) {
             col.aggregate([
                 {
                     $match: {
-                        "Turnover (Lacs)": {
+                        "Turnover_in_Lakhs": {
                             $gt: 1000, $lt: 2000
                         }
                     }
@@ -88,10 +88,10 @@ router.get('/turnover', function(req, res, next) {
                 {
                     $group: {
                         _id: "$Name",
-                        date: {$last: '$Date'},
+                        date: {$last: '$date'},
                         High: {$last: '$High'},
                         Low: {$last: '$Low'},
-                        Date: {$last: '$Date'}
+                        Turnover_in_Lakhs: {$last: "$Turnover_in_Lakhs"}
                     }
                 }
             ])

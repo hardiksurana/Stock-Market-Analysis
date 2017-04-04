@@ -12,11 +12,13 @@ client = MongoClient()
 db = client.dbms_mini_project
 collection = db.stocks
 
-with open("NSE-datasets-codes.csv") as csvfile:
+with open("NSE_final.csv") as csvfile:
     csv_data = csv.reader(csvfile, delimiter=',')
     for row in csv_data:
-        if(row[2] is not null and row[3] is not null):
-            data = quandl.get(row[0], collapse='weekly')
+        if((row[2] not in (None, "")) or (row[3] not in (None, ""))):
+            data = list()
+            data = quandl.get(row[0], start_date="2016-01-01", end_date="2017-01-01", collapse='weekly')
+            print(row[1])
             data["Code"] = row[0]
             data["Name"] = row[1]
             data["Sector"] = row[2]
@@ -24,4 +26,4 @@ with open("NSE-datasets-codes.csv") as csvfile:
             data["date"] = data.index
             data = data.to_dict('records')
             res = collection.insert_many(data)
-            print(db.stocks.count())
+print(db.stocks.count())
