@@ -5,6 +5,11 @@
   "scripts": {
     "start": "node ./bin/www"
   },
+  "authors": [
+    "Hardik Surana",
+    "Gaurav Peswani",
+    "Gavrish Prabhu"
+  ] ,
   "dependencies": {
     "body-parser": "~1.16.0",
     "cookie-parser": "~1.4.3",
