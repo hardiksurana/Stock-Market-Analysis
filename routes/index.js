@@ -6,4 +6,9 @@ router.get('/', function(req, res, next) {
     res.render('index', { title: 'Stock Market Analysis'});
 });
 
+router.post('/', function(req, res, next) {
+    res.render('login', { title: 'Stock Market Analysis'});
+});
+
+
 module.exports = router;

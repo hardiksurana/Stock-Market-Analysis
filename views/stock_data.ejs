@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title><%= title %></title>
-        <link rel='stylesheet' href='/stylesheets/style.css' />
+        <meta charset="utf-8">
+        <title> <%= title %> </title>
     </head>
     <body>
         <h1><%= title %></h1>
-
         <ul class="stocks">
             <% for(var i=0; i<stocks.length; i++) {%>
                 <div class="stock">
-                    <h3>
-                        Name: <%= stocks[i]._id %>
-                    </h3>
-                    <p>High: <%= stocks[i].High %></p>
+                    <h3>Name: <%= stocks[i]._id %></h3>
                     <p>Low: <%= stocks[i].Low %></p>
+                    <p>High: <%= stocks[i].High %></p>
                     <p>Turnover: <%= stocks[i].Turnover_in_Lakhs %></p>
-                    <p>Timestamp: <%= stocks[i].date %></p>
+                    <p>Total Trade Quantity: <%= stocks[i].Total_Trade_Quantity %></p>
                 </div>
             <% } %>
         </ul>
+
     </body>
 </html>

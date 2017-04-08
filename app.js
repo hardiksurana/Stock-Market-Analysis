@@ -6,9 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
-var stocks = require('./routes/stocks.js');
-var search = require('./routes/search.js');
+var users = require('./routes/login');
+var search = require('./routes/search_stocks.js');
 var app = express();
 
 // view engine setup
@@ -23,7 +22,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/stocks', stocks);
 app.use('/search', search);
 
 // catch 404 and forward to error handler

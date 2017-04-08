@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title> <%= title %> </title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <form method="post" action="/search/search_stocks">
+        <fieldset class="form-group">
+          <input type="text" id="name" name="name" placeholder="Enter Stock Name">
+        </fieldset>
+        <fieldset class="form-group">
+          <input type="text" id="sector" name="sector" placeholder="Enter Stock Sector">
+        </fieldset>
+        <fieldset class="form-group">
+          <label for="low_min">Low</label>
+          <input type="text" id="low_min" name="low_min" placeholder="Min">
+          <input type="text" id="low_max" name="low_max" placeholder="Max">
+        </fieldset>
+        <fieldset class="form-group">
+            <label for="high_min">High</label>
+            <input type="text" id="high_min" name="high_min" placeholder="Min">
+            <input type="text" id="high_max" name="high_max" placeholder="Max">
+        </fieldset>
+        <fieldset class="form-group">
+            <label for="turnover_min">Turnover</label>
+            <input type="text" id="turnover_min" name="turnover_min" placeholder="Min">
+            <input type="text" id="turnover_max" name="turnover_max" placeholder="Max">
+        </fieldset>
+        <fieldset class="form-group">
+            <label for="quantity_min">Quantity</label>
+            <input type="text" id="quantity_min" name="quantity_min" placeholder="Min">
+            <input type="text" id="quantity_max" name="quantity_max" placeholder="Max">
+        </fieldset>
+        <input type="submit" name="search" value="Search">
+    </form>
+
+    <ul class="stocks">
+        <% for(var i=0; i<stocks.length; i++) {%>
+            <div class="stock">
+                <a href='/search/stock_data?name=<%= stocks[i]._id %>'><h3>Name: <%= stocks[i]._id %></h3></a>
+                <p>Low: <%= stocks[i].Low %></p>
+                <p>High: <%= stocks[i].High %></p>
+                <p>Turnover: <%= stocks[i].Turnover_in_Lakhs %></p>
+                <p>Total Trade Quantity: <%= stocks[i].Total_Trade_Quantity %></p>
+            </div>
+        <% } %>
+    </ul>
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  </body>
+</html>
