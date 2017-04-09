@@ -22,7 +22,7 @@ var url = 'mongodb://localhost:27017/dbms_mini_project';
 
 app.get('/', function(req, res) {
     sess = req.session;
-    res.render('login', { title: 'Stock Market Analysis'});
+    res.render('login', { title: 'Trade Tiger - Stock Market Analysis'});
 });
 
 app.post('/login', function(req, res, next) {
@@ -39,8 +39,6 @@ app.post('/login', function(req, res, next) {
     } else {
         res.redirect('/users');
     }
-
-
 });
 
 app.get('/logout', function (req, res) {
