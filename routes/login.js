@@ -1,12 +1,21 @@
 var express = require('express');
+var session = require('express-session');
 var bodyParser = require('body-parser');
 var router = express.Router();
 
 var app = express();
 
-// use body-parser as middlware
+// create session
+app.use(session({
+    secret: 'cookie_secret',
+    resave: true,
+    saveUninitialized: true
+}));
+
+// use bodyParser as middlware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
@@ -17,9 +26,26 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
+    var sess = req.session;
+    console.log(sess);
+    if (!req.body.email || !req.body.password) {
+        res.redirect('/users');
+    }
+    if (req.body.email === 'h@gmail.com' && req.body.password === '1234') {
+        sess.username = req.body.email;
+        // alert('login success');
+        res.redirect('/search/search_stocks');
+    } else {
+        res.redirect('/users');
+    }
 
 
-    res.redirect('/search/search_stocks');
+});
+
+app.get('/logout', function (req, res, next) {
+    req.session.destroy();
+    alert('logout success');
+    res.redirect('/');
 });
 
 module.exports = router;

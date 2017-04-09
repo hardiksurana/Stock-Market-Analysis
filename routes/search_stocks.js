@@ -12,11 +12,20 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var url = 'mongodb://localhost:27017/dbms_mini_project';
 
-router.get('/', function(req, res, next){
+// Authentication and Authorization Middleware
+var auth = function(req, res, next) {
+  if (req.session && req.session.email === "h@gmail.com")
+    return next();
+  else
+    return res.sendStatus(401);
+};
+
+// Get content endpoint
+app.get('/', function (req, res, next) {
     res.redirect('/search/search_stocks');
 });
 
-router.get('/search_stocks', function(req, res, next){
+router.get('/search_stocks', auth, function(req, res, next){
     res.render('search_stock.ejs', {title: "Search Stock", stocks: {}});
 });
 
