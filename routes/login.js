@@ -6,11 +6,11 @@ var router = express.Router();
 var app = express();
 
 // create session
-app.use(session({
-    secret: 'cookie_secret',
-    resave: true,
-    saveUninitialized: true
-}));
+// app.use(session({
+//     secret: 'cookie_secret',
+//     resave: true,
+//     saveUninitialized: true
+// }));
 
 // use bodyParser as middlware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,18 +26,18 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
-    var sess = req.session;
-    console.log(sess);
-    if (!req.body.email || !req.body.password) {
-        res.redirect('/users');
-    }
-    if (req.body.email === 'h@gmail.com' && req.body.password === '1234') {
-        sess.username = req.body.email;
+    // var sess = req.session;
+    // console.log(sess);
+    // if (!req.body.email || !req.body.password) {
+    //     res.redirect('/users');
+    // }
+    // if (req.body.email === 'h@gmail.com' && req.body.password === '1234') {
+        // sess.username = req.body.email;
         // alert('login success');
         res.redirect('/search/search_stocks');
-    } else {
-        res.redirect('/users');
-    }
+    // } else {
+    //     res.redirect('/users');
+    // }
 
 
 });

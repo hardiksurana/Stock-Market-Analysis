@@ -13,61 +13,99 @@ var assert = require('assert');
 var url = 'mongodb://localhost:27017/dbms_mini_project';
 
 // Authentication and Authorization Middleware
-var auth = function(req, res, next) {
-  if (req.session && req.session.email === "h@gmail.com")
-    return next();
-  else
-    return res.sendStatus(401);
-};
+// var auth = function(req, res, next) {
+//   if (req.session && req.session.email === "h@gmail.com")
+//     return next();
+//   else
+//     return res.sendStatus(401);
+// };
 
 // Get content endpoint
 app.get('/', function (req, res, next) {
     res.redirect('/search/search_stocks');
 });
 
-router.get('/search_stocks', auth, function(req, res, next){
+// router.get('/search_stocks', auth, function(req, res, next){
+//     res.render('search_stock.ejs', {title: "Search Stock", stocks: {}});
+// });
+
+router.get('/search_stocks', function(req, res, next){
     res.render('search_stock.ejs', {title: "Search Stock", stocks: {}});
 });
 
-router.get('/stock_data', function(req, res, next){
-    var stock_name = req.query.name;
-    console.log(stock_name);
 
+// router.get('/stock_data', function(req, res, next){
+//     var stock_name = req.query.name;
+//     console.log(stock_name);
+//
+//     MongoClient.connect(url, function (err, db) {
+//         assert.equal(null, err);
+//         var col = db.collection('stocks');
+//         col.aggregate([
+//             {
+//                 $match: {
+//                 Name: stock_name
+//                 }
+//             }, {
+//                 $group: {
+//                     _id: "$Name",
+//                     date: {
+//                         $last: '$date'
+//                     },
+//                     Low: {
+//                         $last: '$Low'
+//                     },
+//                     High: {
+//                         $last: '$High'
+//                     },
+//                     Turnover_in_Lakhs: {
+//                         $last: "$Turnover_in_Lakhs"
+//                     },
+//                     Total_Trade_Quantity: {
+//                         $last: "$Total_Trade_Quantity"
+//                     }
+//                 }
+//             }
+//         ])
+//         .toArray(function (err, result) {
+//             assert.equal(null, err);
+//             res.render('stock_data.ejs', {title: req.params.name, stocks: result});
+//         });
+//     });
+// });
+
+router.get('/stock_data', function(req, res, next) {
+    var stock_name = req.query.name;
     MongoClient.connect(url, function (err, db) {
         assert.equal(null, err);
         var col = db.collection('stocks');
-        col.aggregate([
-            {
-                $match: {
-                Name: stock_name
-                }
+        // NOTE : Follow the order given. ie - date:1,property:1,_id:0
+        col.find({
+              Name: stock_name
             }, {
-                $group: {
-                    _id: "$Name",
-                    date: {
-                        $last: '$date'
-                    },
-                    Low: {
-                        $last: '$Low'
-                    },
-                    High: {
-                        $last: '$High'
-                    },
-                    Turnover_in_Lakhs: {
-                        $last: "$Turnover_in_Lakhs"
-                    },
-                    Total_Trade_Quantity: {
-                        $last: "$Total_Trade_Quantity"
-                    }
-                }
+                date : 1,
+                High : 1,
+                _id : 0
             }
-        ])
-        .toArray(function (err, result) {
+        ).toArray(function(err, result){
+            var graphTitle = 'Graph for ' + stock_name;
             assert.equal(null, err);
-            res.render('stock_data.ejs', {title: req.params.name, stocks: result});
+            res.render('graph.ejs', { title: "Data | " + stock_name, graphTitle: graphTitle, data: result });
         });
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+
 
 router.post('/search_stocks', function(req, res) {
     var query = {};
