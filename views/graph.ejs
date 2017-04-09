@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <link rel='stylesheet' href='#'/>
+    </head>
+    <body>
+        <h1> Graph Plot Using Plotly.js </h1>
+        <div id="plotGraph" style="width:100%; height:90vh; border:black solid 1px"></div>
+    </body>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <script>
+        var rows = <%-JSON.stringify(data)%>
+
+        var property = Object.keys(rows[0])[1]; //fetch the property to be plotted
+        console.log(property);
+
+        var data =
+        [{
+          type: 'scatter',                    // set the chart type
+
+          x: rows.map(function(row){          // set the x-data
+              return JSON.stringify((row['date'].split("T"))[0]);
+                }),
+
+          y: rows.map(function(row){          // set the x-data
+            return JSON.stringify(row[property] ); //High should be generalized on the basis of object sent to the <script>
+          })                                    //as per the value sent to line 15.
+        }];
+
+        // PART OF STYLING...setting layout
+        // var layout =
+        // {
+        //     autosize: true,
+        //     width: 1275,
+        //     height: 500,
+        //     margin:
+        //     {
+        //           l: 50,
+        //           r: 50,
+        //           b: 100,
+        //           t: 50,
+        //           pad: 0
+        //     }
+        // }
+        //
+
+         Plotly.newPlot('plotGraph', data);
+    </script>
+
+</html>
