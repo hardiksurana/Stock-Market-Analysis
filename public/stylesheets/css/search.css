@@ -1,0 +1,83 @@
+
+.search{
+  height: 700px;
+  background: url('/images/stock-market-investing-in-stocks-57a25d785f9b589aa932fa0a.jpg') center center no-repeat scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+
+.tagline {
+    text-shadow: 0 0 10px #000;
+    color: #fff;
+}
+
+
+.form-group{
+position: relative;
+left: 50px;
+color: white;
+}
+
+.form-group1{
+position: relative;
+left: 40px;
+color: Black;
+}
+
+.form-group2{
+position: relative;
+left: 39px;
+color: Black;
+}
+.form-group3{
+position: relative;
+left: 51px;
+color: Black;
+}
+.form-group4{
+position: relative;
+left: inherit;
+color: Black;
+}
+.form-group5{
+position: relative;
+left: 20px;
+color: Black;
+}
+.form-group6{
+position: relative;
+left: 20px;
+color: Black;
+}
+.form-group7{
+position: relative;
+left: 50px;
+color: Black;
+}
+
+
+.form-group8{
+position: relative;
+left: 49px;
+color: Black;
+}
+.form-group9{
+position: relative;
+left: 20px;
+color: Black;
+}
+.form-group10{
+position: relative;
+left: 20px;
+color: Black;
+}
+
+.submit{
+position: absolute;
+left: 50px;
+
+
+}
