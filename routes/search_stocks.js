@@ -29,7 +29,7 @@ app.get('/', function (req, res, next) {
 //     res.render('search_stock.ejs', {title: "Search Stock", stocks: {}});
 // });
 
-router.get('/search_stocks', function(req, res, next){
+app.get('/search_stocks', function(req, res, next){
     res.render('search_stock.ejs', {title: "Search Stock", stocks: {}});
 });
 
@@ -74,7 +74,7 @@ router.get('/search_stocks', function(req, res, next){
 //     });
 // });
 
-router.get('/stock_data', function(req, res, next) {
+app.get('/stock_data', function(req, res, next) {
     var stock_name = req.query.name;
     MongoClient.connect(url, function (err, db) {
         assert.equal(null, err);
@@ -107,7 +107,7 @@ router.get('/stock_data', function(req, res, next) {
 
 
 
-router.post('/search_stocks', function(req, res) {
+app.post('/search_stocks', function(req, res) {
     var query = {};
 
     for(var key in req.body)
@@ -178,4 +178,4 @@ router.post('/search_stocks', function(req, res) {
 
 });
 
-module.exports = router;
+module.exports = app;
