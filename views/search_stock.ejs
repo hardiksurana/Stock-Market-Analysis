@@ -8,9 +8,19 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
-    <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+
+    <a class="btn btn-default btn-warning" href="/users/logout">Logout</a>
+    <a class="btn btn-default btn-warning" href="/users/dashboard">Dashboard</a>
+    <a class="btn btn-default btn-warning" href="/search/top_gainers">Top Gainers</a>
+    <a class="btn btn-default btn-warning" href="/search/top_losers">Top Losers</a>
+
+    <hr>
+
+    <p>
+        Welcome, <%= user.username %> !
+    </p>
     <form method="post" action="/search/search_stocks">
         <fieldset class="form-group">
           <input type="text" id="name" name="name" placeholder="Enter Stock Name">
@@ -44,11 +54,12 @@
     <ul class="stocks">
         <% for(var i=0; i<stocks.length; i++) {%>
             <div class="stock">
-                <a href='/search/stock_data?name=<%= stocks[i]._id %>'><h3>Name: <%= stocks[i]._id %></h3></a>
+                <a href='/search/stock_data?name=<%= stocks[i]._id %>' target="_blank"><h3>Name: <%= stocks[i]._id %></h3></a>
                 <p>Low: <%= stocks[i].Low %></p>
                 <p>High: <%= stocks[i].High %></p>
                 <p>Turnover: <%= stocks[i].Turnover_in_Lakhs %></p>
                 <p>Total Trade Quantity: <%= stocks[i].Total_Trade_Quantity %></p>
+                <a class="btn btn-default btn-info-outline" href="/search/add_to_wishlist?stockname=<%= stocks[i]._id %>">Add to Wishlist</a>
             </div>
         <% } %>
     </ul>

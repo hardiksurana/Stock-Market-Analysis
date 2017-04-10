@@ -14,3 +14,62 @@ Queries:
 7. Calculate total Turnover (in a given time frame) for a given stock.
 8. Calculate average volume of stocks traded in a given time-line for all stocks in a given sector.
 9. Find out Top Gainers and Losers (stocks which have maximum High and minimum Low price) for all stocks in a given sector.
+
+
+db.stocks.aggregate( { $group:{_id:"Name", Code: {$last:"$Code"},Date: {$last:"$date"},High: {$last:"$High"},Low: {$last:"$Low"},Open: {$last:"$Open"},Close: {$last:"$Close"},"Total Trade Quantity":{$last:"$Total_Trade_Quantity"},Turnover:{$last:"$Turnover_in_Lakhs"},Sector:{$last:"$sector"},Index:{$last:"$Index"}  }} ).toArray();
+
+
+1.
+db.stocks.find({$and:[{Name:"NAME"},{date:"2017-01-01T00:00:00.000Z"}]}).pretty();
+
+2.
+db.stocks.find({$and:[ {High:{$lt:1000,$gt:100}},{date:"2017-01-01T00:00:00.000Z"}]}).pretty();
+db.stocks.find({$and:[ {Low:{$lt:1000,$gt:100}},{date:"2017-01-01T00:00:00.000Z"}]}).pretty();
+db.stocks.find({$and:[ {Open:{$lt:1000,$gt:100}},{date:"2017-01-01T00:00:00.000Z"}]}).pretty();
+db.stocks.find({$and:[ {Close:{$lt:1000,$gt:100}},{date:"2017-01-01T00:00:00.000Z"}]}).pretty();
+
+3.
+db.stocks.find({$and:[ {Turnover_in_Lakhs:{$lt:5000,$gt:1000}},{date:"2017-01-01T00:00:00.000Z"}]}).pretty();
+
+4.
+db.stocks.find({$and:[ {Total_Trade_Quantity:{$lt:200000,$gt:100000}},{date:"2017-01-01T00:00:00.000Z"}]}).pretty();
+
+5.
+db.stocks.find({$and:[ {Name:"NAME"},{date:"2017-01-01T00:00:00.000Z"}]}).pretty();
+
+6.
+db.stocks.find({$and:[ {Sector:"AUTOMOBILE"},{date:"2017-01-01T00:00:00.000Z"}]}).pretty();
+
+7.
+db.stocks.find({$and:[{Name:"Bharat Petroleum Corporation Limited", date:{$lt:new ISODate("2017-01-01"),$gt:new ISODate("2016-03-03")}}]},{Turnover_in_Lakhs:1,_id:0}).pretty();
+
+/*
+db.stocks.find( {$and:[{Name:"NAME"},{date:{$lt:new Date("Jan 1,2017"),$gt:new Date("Mar 3,2016")}}]},{Turnover_in_Lakhs:1,_id:0}).pretty();
+*/
+
+8.
+db.stocks.aggregate(
+    {
+        $group:{
+            _id: "Name",
+            date: {$lt:new ISODate("2017-01-01"),$gt:new ISODate("2016-03-03")},
+            total: {$sum:"$Total_Trade_Quantity"},
+            Turnover: {$last:"$Turnover_in_Lakhs"},
+            Sector: {$last:"$sector"},
+            Index: {$last:"$Index"}
+        }
+    }
+).toArray();
+
+9.
+//Top Gainers:
+db.stocks.find({date:"2017-01-01T00:00:00.000Z"},{_id:0,Name:1,High:1,Low:1,Sector:1}).sort({High:-1}).limit(10).pretty();
+//Top Losers:
+db.stocks.find({date:"2017-01-01T00:00:00.000Z"},{_id:0,Name:1,High:1,Low:1,Sector:1}).sort({Low:1}).limit(10).pretty();
+
+//In particular sectors:
+
+//Top Gainers:
+db.stocks.find({$and:[{date:"2017-01-01T00:00:00.000Z"},{Sector:"SECTOR"}]},{_id:0,Name:1,High:1,Low:1,Sector:1}).sort({High:-1}).limit(10).pretty();
+//Top Losers:
+db.stocks.find({$and:[{date:"2017-01-01T00:00:00.000Z"},{Sector:"SECTOR"}]},{_id:0,Name:1,High:1,Low:1,Sector:1}).sort({Low:1}).limit(10).pretty();

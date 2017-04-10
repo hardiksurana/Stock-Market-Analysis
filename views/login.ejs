@@ -2,12 +2,36 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title><%= title %></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title> <%= title %> </title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">    
     </head>
     <body>
+        <h2>
+            Sign Up
+        </h2>
+        <form method="post" action="/users/signup">
+            <fieldset class="form-group">
+                <label for="username1">Username</label>
+                <input type="text" class="form-control" id="username1" name="username" placeholder="Enter Username">
+            </fieldset>
+            <fieldset class="form-group">
+                <label for="email1">Email Address</label>
+                <input type="email" class="form-control" id="email1" name="email" placeholder="Enter email">
+            </fieldset>
+            <fieldset class="form-group">
+                <label for="pass">Password</label>
+                <input type="password" class="form-control" id="pass" name="password" placeholder="Password">
+            </fieldset>
+            <input type="submit" class="btn btn-primary" value="Sign Up">
+        </form>
+
+        <h2>Login</h2>
         <form method="post" action="/users/login">
             <fieldset class="form-group">
-                <label for="email1">Email address</label>
+                <label for="email1">Email Address</label>
                 <input type="email" class="form-control" id="email1" name="email" placeholder="Enter email">
             </fieldset>
             <fieldset class="form-group">
@@ -16,5 +40,10 @@
             </fieldset>
             <input type="submit" class="btn btn-primary" value="Login">
         </form>
+
+        <!-- jQuery first, then Tether, then Bootstrap JS. -->
+        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     </body>
 </html>

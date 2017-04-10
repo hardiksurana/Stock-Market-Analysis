@@ -2,13 +2,23 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
+// local endpoints
 var index = require('./routes/index');
 var users = require('./routes/login');
 var search = require('./routes/search_stocks.js');
 var app = express();
+
+// setup sessions
+app.use(cookieParser());
+app.use(session({
+    secret: 'stockmarket',
+    resave: false,
+    saveUninitialized: true
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,6 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// local endpoints
 app.use('/', index);
 app.use('/users', users);
 app.use('/search', search);

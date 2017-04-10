@@ -2,8 +2,10 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var router = express.Router();
 
-var app = express();
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
+var app = express();
 // use body-parser as middlware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -12,29 +14,37 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var url = 'mongodb://localhost:27017/dbms_mini_project';
 
-// Authentication and Authorization Middleware
-// var auth = function(req, res, next) {
-//   if (req.session && req.session.email === "h@gmail.com")
-//     return next();
-//   else
-//     return res.sendStatus(401);
-// };
-
 // Get content endpoint
 app.get('/', function (req, res, next) {
-    res.redirect('/search/search_stocks');
+    res.redirect('/search/search_stocks', {title: "Search Stock", stocks: {}, user: req.session.userDetails});
 });
 
-// router.get('/search_stocks', auth, function(req, res, next){
-//     res.render('search_stock.ejs', {title: "Search Stock", stocks: {}});
-// });
-
-router.get('/search_stocks', function(req, res, next){
-    res.render('search_stock.ejs', {title: "Search Stock", stocks: {}});
+app.get('/search_stocks', function(req, res, next){
+    console.log(req.session);
+    res.render('search_stock.ejs', {title: "Search Stock", stocks: {}, user: req.session.userDetails});
 });
 
+app.get('/add_to_wishlist', function(req, res, next){
+    var user_name = req.session.userDetails.username;
+    var stock_name = req.query.stockname;
+    console.log(stock_name);
+    MongoClient.connect(url, function(err, db){
+        assert.equal(null, err);
+        var col = db.collection('users');
 
-// router.get('/stock_data', function(req, res, next){
+        col.update({
+            username: user_name
+        },{
+            $push: {
+                wishlist: stock_name
+            }
+        });
+    });
+
+
+});
+
+// app.get('/stock_data', function(req, res, next){
 //     var stock_name = req.query.name;
 //     console.log(stock_name);
 //
@@ -74,40 +84,7 @@ router.get('/search_stocks', function(req, res, next){
 //     });
 // });
 
-router.get('/stock_data', function(req, res, next) {
-    var stock_name = req.query.name;
-    MongoClient.connect(url, function (err, db) {
-        assert.equal(null, err);
-        var col = db.collection('stocks');
-        // NOTE : Follow the order given. ie - date:1,property:1,_id:0
-        col.find({
-              Name: stock_name
-            }, {
-                date : 1,
-                High : 1,
-                _id : 0
-            }
-        ).toArray(function(err, result){
-            var graphTitle = 'Graph for ' + stock_name;
-            assert.equal(null, err);
-            res.render('graph.ejs', { title: "Data | " + stock_name, graphTitle: graphTitle, data: result });
-        });
-    });
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-router.post('/search_stocks', function(req, res) {
+app.post('/search_stocks', function(req, res) {
     var query = {};
 
     for(var key in req.body)
@@ -172,10 +149,135 @@ router.post('/search_stocks', function(req, res) {
             ])
         .toArray(function (err, result) {
             assert.equal(null, err);
-            res.render('search_stock.ejs', { title: 'Search Stock', stocks: result });
+            res.render('search_stock.ejs', { title: 'Search Stock', stocks: result, user: req.session.userDetails });
         });
     });
 
 });
 
-module.exports = router;
+app.get('/stock_data', function(req, res, next) {
+    var stock_name = req.query.name;
+    MongoClient.connect(url, function (err, db) {
+        assert.equal(null, err);
+        var col = db.collection('stocks');
+        // NOTE : Follow the order given. ie - date:1,property:1,_id:0
+        col.find({
+              Name: stock_name
+            }, {
+                date : 1,
+                High : 1,
+                _id : 0
+            }
+        ).toArray(function(err, result){
+            var graphTitle = 'Graph for ' + stock_name;
+            assert.equal(null, err);
+            res.render('graph.ejs', { title: "Data | " + stock_name, graphTitle: graphTitle, data: result });
+        });
+    });
+});
+
+app.get('/top_gainers', function(req, res, next){
+    res.render('top_gainers', {title: "Top Gainers", gainers: {}});
+});
+
+app.get('/top_losers', function(req, res, next){
+    res.render('top_losers', {title: "Top Losers", losers: {}});
+});
+
+app.post('/top_gainers', function(req, res, next) {
+    var sector = req.body.sector;
+
+    MongoClient.connect(url, function (err, db) {
+        assert.equal(null, err);
+        var col = db.collection('stocks');
+        col.aggregate([
+            {
+                $match: {
+                    Sector: new RegExp("^" + sector, 'i')
+                }
+            },
+            {
+                $group: {
+                    _id: "$Name",
+                    date: {
+                        $last: '$date'
+                    },
+                    Low: {
+                        $last: '$Low'
+                    },
+                    High: {
+                        $last: '$High'
+                    },
+                    Turnover_in_Lakhs: {
+                        $last: "$Turnover_in_Lakhs"
+                    },
+                    Total_Trade_Quantity: {
+                        $last: "$Total_Trade_Quantity"
+                    }
+                }
+            },
+            {
+                $sort: {
+                    High: -1
+                }
+            }
+        ])
+        .limit(10)
+        .toArray(function(err, result){
+            assert.equal(null, err);
+            res.render('top_gainers', {title: "Top Gainers", gainers: result});
+        });
+
+    });
+
+});
+
+
+app.post('/top_losers', function(req, res, next) {
+    var sector = req.body.sector;
+
+    MongoClient.connect(url, function (err, db) {
+        assert.equal(null, err);
+        var col = db.collection('stocks');
+        col.aggregate([
+            {
+                $match: {
+                    Sector: new RegExp("^" + sector, 'i')
+                }
+            },
+            {
+                $group: {
+                    _id: "$Name",
+                    date: {
+                        $last: '$date'
+                    },
+                    Low: {
+                        $last: '$Low'
+                    },
+                    High: {
+                        $last: '$High'
+                    },
+                    Turnover_in_Lakhs: {
+                        $last: "$Turnover_in_Lakhs"
+                    },
+                    Total_Trade_Quantity: {
+                        $last: "$Total_Trade_Quantity"
+                    }
+                }
+            },
+            {
+                $sort: {
+                    Low: 1
+                }
+            }
+        ])
+        .limit(10)
+        .toArray(function(err, result){
+            assert.equal(null, err);
+            res.render('top_losers', {title: "Top Losers", losers: result});
+        });
+
+    });
+
+});
+module.exports = app;
