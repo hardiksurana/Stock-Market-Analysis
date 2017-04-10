@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
 var app = express();
+
 // use body-parser as middlware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -14,7 +15,6 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var url = 'mongodb://localhost:27017/dbms_mini_project';
 
-// Get content endpoint
 app.get('/', function (req, res, next) {
     res.redirect('/search/search_stocks', {title: "Search Stock", stocks: {}, user: req.session.userDetails});
 });
@@ -40,49 +40,7 @@ app.get('/add_to_wishlist', function(req, res, next){
             }
         });
     });
-
-
 });
-
-// app.get('/stock_data', function(req, res, next){
-//     var stock_name = req.query.name;
-//     console.log(stock_name);
-//
-//     MongoClient.connect(url, function (err, db) {
-//         assert.equal(null, err);
-//         var col = db.collection('stocks');
-//         col.aggregate([
-//             {
-//                 $match: {
-//                 Name: stock_name
-//                 }
-//             }, {
-//                 $group: {
-//                     _id: "$Name",
-//                     date: {
-//                         $last: '$date'
-//                     },
-//                     Low: {
-//                         $last: '$Low'
-//                     },
-//                     High: {
-//                         $last: '$High'
-//                     },
-//                     Turnover_in_Lakhs: {
-//                         $last: "$Turnover_in_Lakhs"
-//                     },
-//                     Total_Trade_Quantity: {
-//                         $last: "$Total_Trade_Quantity"
-//                     }
-//                 }
-//             }
-//         ])
-//         .toArray(function (err, result) {
-//             assert.equal(null, err);
-//             res.render('stock_data.ejs', {title: req.params.name, stocks: result});
-//         });
-//     });
-// });
 
 app.post('/search_stocks', function(req, res) {
     var query = {};
@@ -152,7 +110,6 @@ app.post('/search_stocks', function(req, res) {
             res.render('search_stock.ejs', { title: 'Search Stock', stocks: result, user: req.session.userDetails });
         });
     });
-
 });
 
 app.get('/stock_data', function(req, res, next) {
@@ -160,7 +117,7 @@ app.get('/stock_data', function(req, res, next) {
     MongoClient.connect(url, function (err, db) {
         assert.equal(null, err);
         var col = db.collection('stocks');
-        // NOTE : Follow the order given. ie - date:1,property:1,_id:0
+
         col.find({
               Name: stock_name
             }, {
@@ -175,6 +132,30 @@ app.get('/stock_data', function(req, res, next) {
         });
     });
 });
+
+
+// app.get('/stock_data', function(req, res, next) {
+//     var stock_name = req.query.name;
+//     MongoClient.connect(url, function (err, db) {
+//         assert.equal(null, err);
+//         var col = db.collection('stocks');
+// 
+//         col.find({
+//               Name: stock_name
+//             }, {
+//                 Code:0,
+//                _id: 0,
+//                Sector: 0,
+//                Index: 0,
+//                Name: 0
+//             }
+//         ).toArray(function(err, result){
+//             var graphTitle = 'Graph for ' + stock_name;
+//             assert.equal(null, err);
+//             res.render('graph_new.ejs', { title: "Data | " + stock_name, graphTitle: graphTitle, data: result });
+//         });
+//     });
+// });
 
 app.get('/top_gainers', function(req, res, next){
     res.render('top_gainers', {title: "Top Gainers", gainers: {}});
@@ -227,9 +208,7 @@ app.post('/top_gainers', function(req, res, next) {
             assert.equal(null, err);
             res.render('top_gainers', {title: "Top Gainers", gainers: result});
         });
-
     });
-
 });
 
 
@@ -276,8 +255,7 @@ app.post('/top_losers', function(req, res, next) {
             assert.equal(null, err);
             res.render('top_losers', {title: "Top Losers", losers: result});
         });
-
     });
-
 });
+
 module.exports = app;
