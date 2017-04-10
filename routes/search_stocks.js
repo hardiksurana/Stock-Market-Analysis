@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
-var url = 'mongodb://localhost:27017/dbms_mini_project';
+var url = 'mongodb://localhost/dbms_mini_project_lt';
 
 // Authentication and Authorization Middleware
 // var auth = function(req, res, next) {
@@ -29,7 +29,7 @@ app.get('/', function (req, res, next) {
 //     res.render('search_stock.ejs', {title: "Search Stock", stocks: {}});
 // });
 
-app.get('/search_stocks', function(req, res, next){
+router.get('/search_stocks', function(req, res, next){
     res.render('search_stock.ejs', {title: "Search Stock", stocks: {}});
 });
 
@@ -74,7 +74,7 @@ app.get('/search_stocks', function(req, res, next){
 //     });
 // });
 
-app.get('/stock_data', function(req, res, next) {
+router.get('/stock_data', function(req, res, next) {
     var stock_name = req.query.name;
     MongoClient.connect(url, function (err, db) {
         assert.equal(null, err);
@@ -83,9 +83,12 @@ app.get('/stock_data', function(req, res, next) {
         col.find({
               Name: stock_name
             }, {
-                date : 1,
-                High : 1,
-                _id : 0
+
+                   Code:0,
+                  _id: 0,
+                  Sector: 0,
+                  Index: 0,
+                  Name: 0
             }
         ).toArray(function(err, result){
             var graphTitle = 'Graph for ' + stock_name;
@@ -107,7 +110,7 @@ app.get('/stock_data', function(req, res, next) {
 
 
 
-app.post('/search_stocks', function(req, res) {
+router.post('/search_stocks', function(req, res) {
     var query = {};
 
     for(var key in req.body)
@@ -178,4 +181,4 @@ app.post('/search_stocks', function(req, res) {
 
 });
 
-module.exports = app;
+module.exports = router;
