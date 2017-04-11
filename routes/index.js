@@ -1,14 +1,16 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
+var app = express();
+
+// GET home page.
+app.get('/', function(req, res, next) {
     res.render('index', { title: 'Stock Market Analysis'});
 });
 
-router.post('/', function(req, res, next) {
+// GET signup and login page.
+app.post('/', function(req, res, next) {
     res.render('login', { title: 'Stock Market Analysis'});
 });
 
-
-module.exports = router;
+module.exports = app;

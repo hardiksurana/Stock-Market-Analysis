@@ -11,23 +11,22 @@
     <body>
         <a class="btn btn-default btn-warning" href="/users/logout">Logout</a>
         <hr>
-        <p>
-            Welcome, <%= user.username %>!
-        </p>
 
+        <p> Welcome, <%= user.username %>! </p>
         <hr>
-        <h2>Here is your wishlist!</h2>
+
+        <h2> Here is your wishlist! </h2>
 
         <ul>
-        <% if (wishlist.length) {
-            wishlist.forEach(function(list){ %>
-                <li>
-                    <a href='/search/stock_data?name=<%= list %>' target="_blank">
-                        <%= list %>
-                    </a>
-                </li>
-            <% }) %>
-        <% } %>
+            <% if (wishlist.length) {
+                wishlist.forEach(function(list){ %>
+                    <li>
+                        <a href='/search/stock_data?name=<%= list %>' target="_blank">
+                            <%= list %>
+                        </a>
+                    </li>
+                <% }) %>
+            <% } %>
         </ul>
 
         <!-- jQuery first, then Tether, then Bootstrap JS. -->

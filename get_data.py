@@ -5,13 +5,16 @@ import csv
 import quandl
 from datetime import datetime
 
-auth_tok = "neKoNF_6iNUyjxyhw9mR"
+# setup quandl API
+auth_tok = "YOUR_API_KEY"
 quandl.ApiConfig.api_key = auth_tok
 
+# setup MongoDB
 client = MongoClient()
 db = client.dbms_mini_project
 collection = db.stocks
 
+# get data from Quandl and store in MongoDB
 with open("NSE_final.csv") as csvfile:
     csv_data = csv.reader(csvfile, delimiter=',')
     for row in csv_data:

@@ -1,6 +1,5 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var router = express.Router();
 
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
@@ -15,19 +14,20 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var url = 'mongodb://localhost:27017/dbms_mini_project';
 
+// GET Search Page
 app.get('/', function (req, res, next) {
     res.redirect('/search/search_stocks', {title: "Search Stock", stocks: {}, user: req.session.userDetails});
 });
 
+// GET Search Page
 app.get('/search_stocks', function(req, res, next){
-    console.log(req.session);
     res.render('search_stock.ejs', {title: "Search Stock", stocks: {}, user: req.session.userDetails});
 });
 
+// GET wishlist of user
 app.get('/add_to_wishlist', function(req, res, next){
     var user_name = req.session.userDetails.username;
     var stock_name = req.query.stockname;
-    console.log(stock_name);
     MongoClient.connect(url, function(err, db){
         assert.equal(null, err);
         var col = db.collection('users');
@@ -42,13 +42,12 @@ app.get('/add_to_wishlist', function(req, res, next){
     });
 });
 
+// Search for stocks based on given parameters
 app.post('/search_stocks', function(req, res) {
     var query = {};
 
     for(var key in req.body)
         req.body[key] !== "" ? query[key] = req.body[key] : null;
-
-    console.log(query);
 
     MongoClient.connect(url, function (err, db) {
         assert.equal(null, err);
@@ -78,8 +77,7 @@ app.post('/search_stocks', function(req, res) {
                             }
                         ]
                     }
-                },
-                {
+                }, {
                     $group: {
                         _id: "$Name",
                         date: {
@@ -98,8 +96,7 @@ app.post('/search_stocks', function(req, res) {
                             $last: "$Total_Trade_Quantity"
                         }
                     }
-                },
-                {
+                }, {
                     $sort: {
                         date: -1
                     }
@@ -112,6 +109,7 @@ app.post('/search_stocks', function(req, res) {
     });
 });
 
+// View graph of requested stock based using given parameters
 app.get('/stock_data', function(req, res, next) {
     var stock_name = req.query.name;
     MongoClient.connect(url, function (err, db) {
@@ -121,11 +119,13 @@ app.get('/stock_data', function(req, res, next) {
         col.find({
               Name: stock_name
             }, {
-                date : 1,
-                High : 1,
-                _id : 0
-            }
-        ).toArray(function(err, result){
+                Code:0,
+               _id: 0,
+               Sector: 0,
+               Index: 0,
+               Name: 0
+            })
+        .toArray(function(err, result){
             var graphTitle = 'Graph for ' + stock_name;
             assert.equal(null, err);
             res.render('graph.ejs', { title: "Data | " + stock_name, graphTitle: graphTitle, data: result });
@@ -133,38 +133,17 @@ app.get('/stock_data', function(req, res, next) {
     });
 });
 
-
-// app.get('/stock_data', function(req, res, next) {
-//     var stock_name = req.query.name;
-//     MongoClient.connect(url, function (err, db) {
-//         assert.equal(null, err);
-//         var col = db.collection('stocks');
-// 
-//         col.find({
-//               Name: stock_name
-//             }, {
-//                 Code:0,
-//                _id: 0,
-//                Sector: 0,
-//                Index: 0,
-//                Name: 0
-//             }
-//         ).toArray(function(err, result){
-//             var graphTitle = 'Graph for ' + stock_name;
-//             assert.equal(null, err);
-//             res.render('graph_new.ejs', { title: "Data | " + stock_name, graphTitle: graphTitle, data: result });
-//         });
-//     });
-// });
-
+// GET Top Gainers Page
 app.get('/top_gainers', function(req, res, next){
     res.render('top_gainers', {title: "Top Gainers", gainers: {}});
 });
 
+// GET Top Losers Page
 app.get('/top_losers', function(req, res, next){
     res.render('top_losers', {title: "Top Losers", losers: {}});
 });
 
+// View Top Gainer Stocks for a given sector
 app.post('/top_gainers', function(req, res, next) {
     var sector = req.body.sector;
 
@@ -176,8 +155,7 @@ app.post('/top_gainers', function(req, res, next) {
                 $match: {
                     Sector: new RegExp("^" + sector, 'i')
                 }
-            },
-            {
+            }, {
                 $group: {
                     _id: "$Name",
                     date: {
@@ -196,8 +174,7 @@ app.post('/top_gainers', function(req, res, next) {
                         $last: "$Total_Trade_Quantity"
                     }
                 }
-            },
-            {
+            }, {
                 $sort: {
                     High: -1
                 }
@@ -211,7 +188,7 @@ app.post('/top_gainers', function(req, res, next) {
     });
 });
 
-
+// View Top Loser Stocks for a given sector
 app.post('/top_losers', function(req, res, next) {
     var sector = req.body.sector;
 
@@ -223,8 +200,7 @@ app.post('/top_losers', function(req, res, next) {
                 $match: {
                     Sector: new RegExp("^" + sector, 'i')
                 }
-            },
-            {
+            }, {
                 $group: {
                     _id: "$Name",
                     date: {
@@ -243,8 +219,7 @@ app.post('/top_losers', function(req, res, next) {
                         $last: "$Total_Trade_Quantity"
                     }
                 }
-            },
-            {
+            }, {
                 $sort: {
                     Low: 1
                 }
@@ -257,5 +232,6 @@ app.post('/top_losers', function(req, res, next) {
         });
     });
 });
+
 
 module.exports = app;

@@ -7,19 +7,23 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Session Variable
 var sess;
+
+// Initialise MongoDB
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var url = 'mongodb://localhost:27017/dbms_mini_project';
 
+// GET signup and login page
 app.get('/', function(req, res, next) {
     res.render('login', { title: 'Stock Market Analysis'});
 });
 
+// Sign Up a new user
 app.post('/signup', function(req, res, next) {
-    if (!req.body.email || !req.body.password) {
+    if (!req.body.email || !req.body.password)
         res.redirect('/users');
-    }
 
     MongoClient.connect(url, function(err, db) {
        assert.equal(null, err);
@@ -36,16 +40,14 @@ app.post('/signup', function(req, res, next) {
             res.render('login', { title: 'Stock Market Analysis'});
         });
     });
-
 });
 
-
+// Login an existing user
 app.post('/login', function(req, res, next) {
     sess = req.session;
 
-    if (!req.body.email || !req.body.password) {
+    if (!req.body.email || !req.body.password)
         res.redirect('/users');
-    }
 
     sess.email = req.body.email;
     sess.pass = req.body.password;
@@ -68,9 +70,9 @@ app.post('/login', function(req, res, next) {
             }
        });
     });
-
 });
 
+// GET dashboard of given user
 app.get('/dashboard', function (req, res, next) {
     var user = req.session.userDetails;
     console.log(user.username);
@@ -90,6 +92,7 @@ app.get('/dashboard', function (req, res, next) {
     });
 });
 
+// Logout a user
 app.get('/logout', function (req, res, next) {
     req.session.destroy(function(err){
 		if(err)
@@ -98,5 +101,6 @@ app.get('/logout', function (req, res, next) {
 			res.redirect('/');
 	});
 });
+
 
 module.exports = app;
