@@ -1,0 +1,138 @@
+*
+{
+    outline: none;
+}
+
+form
+{
+  margin-left: 33vw;
+  margin-top: 5vh;
+  position: fixed;
+}
+
+label
+{
+  width: 22vw;
+  text-align: center;
+  color: white;
+  padding: 0.4vh 1vw 0.4vh 1vw;
+  background-color: #1c4b82;
+}
+
+input[type=text]
+{
+  width: 10vw;
+  border: 2px solid #dce5e1;
+}
+
+input[type=submit]
+{
+  position: absolute;
+  margin-left: 40.5vw;
+  margin-top: 72vh;
+  border: 2px solid transparent;
+}
+
+#topgl
+{
+  position: fixed;
+  margin-top: 13vh;
+  margin-left: 76vw;
+}
+
+#welcome
+{
+  margin-left: 5vw;
+  color: white;
+}
+
+fieldset
+{
+  display: inline-block;
+  margin-top: 10vh;
+}
+
+#StockSect
+{
+  margin-top: -4vh;
+  margin-left: 28vw;
+}
+
+#Property
+{
+    margin-left: 37vw;
+    margin-top: -10vh;
+}
+
+#LOW
+{
+  margin-left: -7vw;
+  position: absolute;
+  height: 20vh;
+  width: 30vw;
+  margin-top: 10vh;
+  padding-top: 2vh;
+  padding-left: 3vw;
+}
+
+#HIGH
+{
+  margin-left: -7vw;
+  position: absolute;
+  height: 20vh;
+  width: 30vw;
+  margin-top: 25vh;
+  padding-top: 2vh;
+  padding-left: 3vw;
+}
+
+#TURN
+{
+  margin-left: -7vw;
+  position: absolute;
+  height: 20vh;
+  width: 30vw;
+  margin-top: 40vh;
+  padding-top: 2vh;
+  padding-left: 3vw;
+}
+
+#QTY
+{
+  margin-left: -7vw;
+  position: absolute;
+  height: 20vh;
+  width: 30vw;
+  margin-top: 55vh;
+  padding-top: 2vh;
+  padding-left: 3vw;
+}
+
+#high_max
+{
+  margin-left: 12vw;
+  margin-top: -6.2vh;
+}
+
+#low_max
+{
+  margin-left: 12vw;
+  margin-top: -6.2vh;
+}
+
+#turnover_max
+{
+  margin-left: 12vw;
+  margin-top: -6.2vh;
+}
+
+#quantity_max
+{
+  margin-left: 12vw;
+  margin-top: -6.2vh;
+}
+
+p
+{
+  color: black;
+}

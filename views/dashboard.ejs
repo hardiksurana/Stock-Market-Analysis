@@ -1,37 +1,61 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-        <title><%= title %></title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    </head>
-    <body>
-        <a class="btn btn-default btn-warning" href="/users/logout">Logout</a>
-        <hr>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
-        <p> Welcome, <%= user.username %>! </p>
-        <hr>
+    <style media="screen">
+        #header {
+            margin-left: 5vw;
+        }
+    </style>
+</head>
+<body>
+    <nav style="background-color: #e3f2fd; position:fixed;" class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="/search/search_stocks">ShareTiger</a>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="/search/search_stocks">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link" href="/users/dashboard">Dashboard</a>
+          <a class="nav-item nav-link" style="width:10vw;" href="/search/top_gainers">Top Gainers</a>
+          <a class="nav-item nav-link" style="width:10vw;margin-left: 19vw;position:absolute;" href="/search/top_losers">Top Losers</a>
 
-        <h2> Here is your wishlist! </h2>
+          <a class="btn btn-outline-success" style="color: white;margin-left:68vw;position:absolute;">
+            Welcome, <%= user.username %> !
+          </a>
+          <a style="color: white;margin-left:60vw;" class="btn btn-danger my-2 my-sm-0" href="/users/logout">Logout</a>
+        </div>
+      </div>
+    </nav>
 
-        <ul>
-            <% if (wishlist.length) {
-                wishlist.forEach(function(list){ %>
-                    <li>
-                        <a href='/search/stock_data?name=<%= list %>' target="_blank">
-                            <%= list %>
-                        </a>
-                    </li>
-                <% }) %>
-            <% } %>
-        </ul>
+    <br/><br/>
+    <br/><br/>
 
-        <!-- jQuery first, then Tether, then Bootstrap JS. -->
-        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    </body>
+        <% if (wishlist.length) { %>
+            <div style="padding-top:5vw;padding-left:5vw;margin-left: 0.5vw;">
+                <h2> Here is your wishlist! </h2>
+            <ul class="stocks">
+            <% wishlist.forEach(function(list){ %>
+                <div class="stock">
+                    <a class="btn btn-danger" href='/search/stock_data?name=<%= list %>' target="_blank">
+                        <%= list %>
+                    </a>
+                    <br/><br/>
+                </div>
+            <% }) %>
+        <% } %>
+    </ul>
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+</body>
 </html>

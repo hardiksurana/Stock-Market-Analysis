@@ -1,0 +1,82 @@
+*
+{
+    outline: none;
+}
+
+/*body
+{
+  background-image: url('http://cdn0.dailydot.com/cache/fc/2a/fc2a2ad73538bcc9e16dcc9a132b4fd2.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}*/
+
+label
+{
+  color: black;
+}
+
+input[type=text]
+{
+  width: 20vw;
+  border: 2px solid #dce5e1;
+}
+
+input[type=password]
+{
+  width: 20vw;
+  border: 2px solid #dce5e1;
+}
+
+input[type=email]
+{
+  width: 20vw;
+  border: 2px solid #dce5e1;
+}
+
+input[type=submit]
+{
+  position: absolute;
+  margin-left: 7vw;
+  margin-top: 2vh;
+  border: 2px solid transparent;
+}
+
+#signup
+{
+  height: 60vh;
+  position: absolute;
+  margin-left: 22vw;
+  margin-top: 20vh;
+  /*border-right: solid 4px #1c4b82;*/
+  padding: 3vh 3vw 3vh 3vw;
+  border: 1px solid #33a043;
+  border-radius: 10px;
+  /*background: linear-gradient(#1c4b82,transparent);*/
+
+}
+
+#signup > h2
+{
+  margin-left: 6vw;
+  color: black;
+}
+
+#login
+{
+  height: 60vh;
+  position: absolute;
+  margin-left: 49.3vw;
+  margin-top: 20vh;
+  /*border-left: solid 4px #1c4b82;*/
+  padding: 3vh 3vw 3vh 3vw;
+  border: 1px solid #33a043;
+  border-radius: 10px;
+
+  /*background: linear-gradient(#33a043,transparent);*/
+}
+
+#login > h2
+{
+  margin-left: 6vw;
+  color: black;
+}

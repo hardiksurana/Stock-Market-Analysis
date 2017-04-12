@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title><%= title %></title>
-        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    </head>
+<head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
     <body>
-        <h1> <%= graphTitle %> </h1>
-        <select>
+        <h2 style="margin-top:2vh; margin-left:2vw;" class="btn btn-danger btn-lg active"> <%= graphTitle %> </h2>
+
+        <div class="dropdown" style="margin-left:80vw; margin-top:-8vh;">
+        <select class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-labelledby="dropdownMenuButton">
           <option value="1">High</option>
           <option value="0">Low</option>
           <option value="2">Open</option>
@@ -15,55 +21,76 @@
           <option value="7">Total Trade Quantity</option>
           <option value="6">Turnover In Lakhs</option>
         </select>
-        <div id="plotGraph" style="width:100%; height:90vh; border:black solid 1px"></div>
+    </div>
 
-        <script>
-            function plotAfterProperty(propIndex) {
-                var y_axis = Object.keys(rows[0])[propIndex];
-                var data =
-                [{
-                    // set the x-axis data
-                    x:  rows.map(function(row) {
-                            return JSON.stringify(row[x_axis].split("T")[0]);
-                        }),
-                    // set the y-axis data
-                    y:  rows.map(function(row) {
-                            return JSON.stringify(row[y_axis]);
-                        })
-                }];
+    <br/>
 
-                // Layout Styling
-                var layout = {
-                    xaxis: {
-                        title: 'Date',
-                        tickformat: "%B, %Y"
-                    },
-                    yaxis: {
-                        title: y_axis,
-                        type: 'log'
-                    },
-                    margin: {
-                        t: 20
-                    },
-                    hovermode: 'closest',
-                    autosize: true,
-                    width: 1275,
-                    height: 600,
-                    margin: {
-                        l: 75, r: 75, b: 100, t: 50, pad: 0
-                    }
+      <div id="plotGraph" style="width:100%; height:90vh; margin-top:-2vh; z-index:-1;"></div>
+
+      <script>
+      var rows = <%-JSON.stringify(data)%>;
+         var x_axis = Object.keys(rows[0])[5];
+
+         plotAfterProperty(1);
+
+         document.querySelector('select').addEventListener("change",  function() {
+               plotAfterProperty(this.value);
+           });
+
+         function plotAfterProperty(propIndex) {
+             var y_axis = Object.keys(rows[0])[propIndex];
+
+             var data = [{
+                 // set the x-data
+                 x:  rows.map(function(row) {
+                         return JSON.stringify(row[x_axis].split("T")[0]);
+                     }),
+
+                 // set the y-data
+                 y:  rows.map(function(row) {
+                         return JSON.stringify(row[y_axis]);
+                     }),
+                mode: 'lines+markers',
+                line: {
+                  color: 'rgb(219, 64, 82)',
+                  width: 3
                 }
-                Plotly.newPlot('plotGraph', data, layout);
-            }
+             }];
 
-            var rows = <%-JSON.stringify(data)%>;
-            var x_axis = Object.keys(rows[0])[5];
+             // Layout Styling
+             var layout = {
+                 xaxis: {
+                     title: 'Date',
+                     titlefont:{
+                        size: 18
+                     },
+                     tickformat: "%B, %Y"
+                 },
+                 yaxis: {
+                     title: y_axis,
+                     titlefont:{
+                        size: 18
+                     },
+                     type: 'log'
+                 },
+                 margin: {
+                     t: 10
+                 },
+                 line: {
+                  color: 'rgb(219, 64, 82)',
+                  width: 3
+                },
+                 hovermode: 'closest',
+                 autosize: true,
+                 width: 1275,
+                 height: 575,
+                 margin: {
+                     l: 75, r: 0, b: 100, t: 80, pad: 0
+                 }
+             }
 
-            plotAfterProperty(1);
-            document.querySelector('select').addEventListener("change",  function() {
-                  plotAfterProperty(this.value);
-            });
-
-        </script>
-    </body>
+             Plotly.newPlot('plotGraph', data, layout);
+       }
+      </script>
+  </body>
 </html>

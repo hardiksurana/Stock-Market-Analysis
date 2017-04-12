@@ -8,29 +8,67 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
+    <style media="screen">
+    form
+    {
+      margin-left: 5vw;
+      margin-top: 3vh;
+    }
+
+    #header {
+        margin-left: 5vw;
+    }
+    </style>
+
 </head>
 <body>
-    <a class="btn btn-default btn-warning" href="/users/logout">Logout</a>
-    <hr>
+    <nav style="background-color: #e3f2fd; position:fixed;" class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">ShareTiger</a>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="/search/search_stocks">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link" href="/users/dashboard">Dashboard</a>
+          <a class="nav-item nav-link" style="width:10vw;" href="/search/top_gainers">Top Gainers</a>
+          <a class="nav-item nav-link" style="width:10vw;margin-left: 19vw;position:absolute;" href="/search/top_losers">Top Losers</a>
+
+          <a class="btn btn-outline-success" style="color: white;margin-left:68vw;position:absolute;">
+            Welcome, <%= user.username %> !
+          </a>
+          <a style="color: white;margin-left:60vw;" class="btn btn-danger my-2 my-sm-0" href="/users/logout">Logout</a>
+        </div>
+      </div>
+    </nav>
+
+    <br/><br/>
+
+    <br/><br/>
+
+    <h2 id="header">Search for Top Losers of a Sector</h2>
 
     <form method="post" action="/search/top_losers">
         <fieldset class="form-group">
-          <input type="text" id="sector" name="sector" placeholder="Enter Sector">
+          <input type="text" id="sector" class="input-group-addon" name="sector" placeholder="Enter Sector">
         </fieldset>
-        <input type="submit" name="search" value="Search">
+        <input type="submit" class="btn btn-primary" name="search" value="Search">
     </form>
 
     <% if (losers.length > 0) { %>
-        <h2>Top Losers</h2>
+        <div style="padding-top:5vw;padding-left:5vw;margin-left: 0.5vw; ">
+            <h2>Top Losers</h2>
         <ul class="stocks">
-            <% for(var i=0; i<losers.length; i++) {%>
+            <% for(var i = 0; i < losers.length; i++) {%>
                 <div class="stock">
-                    <a href='/search/stock_data?name=<%= losers[i]._id %>' target="_blank"><h3>Name: <%= losers[i]._id %></h3></a>
+                    <a class="btn btn-danger" href='/search/stock_data?name=<%= losers[i]._id %>' target="_blank"><h3>Name: <%= losers[i]._id %></h3></a>
+                    <br/><br/>
                     <p>Low: <%= losers[i].Low %></p>
                     <p>High: <%= losers[i].High %></p>
                     <p>Turnover: <%= losers[i].Turnover_in_Lakhs %></p>
                     <p>Total Trade Quantity: <%= losers[i].Total_Trade_Quantity %></p>
-                    <a class="btn btn-default btn-info-outline" href="/search/add_to_wishlist?stockname=<%= losers[i]._id %>">Add to Wishlist</a>
+                    <a class="btn btn-outline-primary" href="/search/add_to_wishlist?stockname=<%= losers[i]._id %>">Add to Wishlist</a>
+                    <br/><br/>
                 </div>
             <% } %>
         </ul>

@@ -1,61 +1,91 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="/stylesheets/search_stocks.css"/>
     <title> <%= title %> </title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
-</head>
-<body>
-    <a class="btn btn-default btn-warning" href="/users/logout">Logout</a>
-    <a class="btn btn-default btn-warning" href="/users/dashboard">Dashboard</a>
-    <a class="btn btn-default btn-warning" href="/search/top_gainers">Top Gainers</a>
-    <a class="btn btn-default btn-warning" href="/search/top_losers">Top Losers</a>
-    <hr>
+  </head>
+  <body>
 
-    <p> Welcome, <%= user.username %> ! </p>
+    <nav style="background-color: #e3f2fd; position:fixed;" class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">ShareTiger</a>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link" href="/users/dashboard">Dashboard</a>
+          <a class="nav-item nav-link" style="width:10vw;" href="/search/top_gainers">Top Gainers</a>
+          <a class="nav-item nav-link" style="width:10vw;margin-left: 19vw;position:absolute;" href="/search/top_losers">Top Losers</a>
+
+          <a class="btn btn-outline-success" style="color: white;margin-left:68vw;position:absolute;">
+            Welcome, <%= user.username %> !
+          </a>
+          <a style="color: white;margin-left:60vw;" class="btn btn-danger my-2 my-sm-0" href="/users/logout">Logout</a>
+        </div>
+      </div>
+    </nav>
+
+    <br/><br/>
+
+    <br/><br/>
+
     <form method="post" action="/search/search_stocks">
+      <div id="StockSect">
         <fieldset class="form-group">
-          <input type="text" id="name" name="name" placeholder="Enter Stock Name">
+          <input type="text" id="name" class="input-group-addon" name="name" placeholder="Enter Stock Name" style="width:15vw;">
         </fieldset>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <fieldset class="form-group">
-          <input type="text" id="sector" name="sector" placeholder="Enter Stock Sector">
+          <input type="text" id="sector" name="sector" class="input-group-addon" placeholder="Enter Stock Sector" style="width:15vw;">
         </fieldset>
-        <fieldset class="form-group">
-          <label for="low_min">Low</label>
-          <input type="text" id="low_min" name="low_min" placeholder="Min">
-          <input type="text" id="low_max" name="low_max" placeholder="Max">
+      </div>
+
+      <div id="Property">
+        <fieldset class="form-group" id="LOW">
+          <label for="low_min" class="btn btn-primary active">Low</label>
+          <input type="text" id="low_min" class="input-group-addon" name="low_min" placeholder="Min">
+          <input type="text" id="low_max" class="input-group-addon" name="low_max" placeholder="Max">
         </fieldset>
-        <fieldset class="form-group">
-            <label for="high_min">High</label>
-            <input type="text" id="high_min" name="high_min" placeholder="Min">
-            <input type="text" id="high_max" name="high_max" placeholder="Max">
+
+        <fieldset class="form-group" id="HIGH">
+            <label for="high_min" class="btn btn-primary active">High</label>
+            <input type="text" id="high_min" class="input-group-addon" name="high_min" placeholder="Min">
+            <input type="text" id="high_max" class="input-group-addon" name="high_max" placeholder="Max">
         </fieldset>
-        <fieldset class="form-group">
-            <label for="turnover_min">Turnover</label>
-            <input type="text" id="turnover_min" name="turnover_min" placeholder="Min">
-            <input type="text" id="turnover_max" name="turnover_max" placeholder="Max">
+
+        <fieldset class="form-group" id="TURN">
+            <label for="turnover_min" class="btn btn-primary active">Turnover</label>
+            <input type="text" id="turnover_min" class="input-group-addon" name="turnover_min" placeholder="Min">
+            <input type="text" id="turnover_max" class="input-group-addon" name="turnover_max" placeholder="Max">
         </fieldset>
-        <fieldset class="form-group">
-            <label for="quantity_min">Quantity</label>
-            <input type="text" id="quantity_min" name="quantity_min" placeholder="Min">
-            <input type="text" id="quantity_max" name="quantity_max" placeholder="Max">
+
+        <fieldset class="form-group" id="QTY">
+            <label for="quantity_min" class="btn btn-primary active">Quantity</label>
+            <input type="text" id="quantity_min"class="input-group-addon" name="quantity_min" placeholder="Min">
+            <input type="text" id="quantity_max" class="input-group-addon" name="quantity_max" placeholder="Max">
         </fieldset>
-        <input type="submit" name="search" value="Search">
+      </div>
+        <input type="submit" class="btn btn-primary" name="search" value="Search">
     </form>
 
     <ul class="stocks">
         <% for(var i=0; i<stocks.length; i++) {%>
             <div class="stock">
-                <a href='/search/stock_data?name=<%= stocks[i]._id %>' target="_blank"><h3>Name: <%= stocks[i]._id %></h3></a>
+                <a class="btn btn-danger" href='/search/stock_data?name=<%= stocks[i]._id %>' target="_blank"><h3 style="margin-top:4px;">Name: <%= stocks[i]._id %></h3></a>
+                <br/><br/>
                 <p>Low: <%= stocks[i].Low %></p>
                 <p>High: <%= stocks[i].High %></p>
                 <p>Turnover: <%= stocks[i].Turnover_in_Lakhs %></p>
                 <p>Total Trade Quantity: <%= stocks[i].Total_Trade_Quantity %></p>
-                <a class="btn btn-default btn-info-outline" href="/search/add_to_wishlist?stockname=<%= stocks[i]._id %>">Add to Wishlist</a>
+                <a class="btn btn-outline-primary" href="/search/add_to_wishlist?stockname=<%= stocks[i]._id %>">Add to Wishlist</a>
+                <br/><br/>
             </div>
         <% } %>
     </ul>
@@ -64,6 +94,5 @@
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-
-</body>
+  </body>
 </html>

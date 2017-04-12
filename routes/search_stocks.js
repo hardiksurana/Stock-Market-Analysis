@@ -135,12 +135,12 @@ app.get('/stock_data', function(req, res, next) {
 
 // GET Top Gainers Page
 app.get('/top_gainers', function(req, res, next){
-    res.render('top_gainers', {title: "Top Gainers", gainers: {}});
+    res.render('top_gainers', {title: "Top Gainers", user: req.session.userDetails, gainers: {}});
 });
 
 // GET Top Losers Page
 app.get('/top_losers', function(req, res, next){
-    res.render('top_losers', {title: "Top Losers", losers: {}});
+    res.render('top_losers', {title: "Top Losers", user: req.session.userDetails, losers: {}});
 });
 
 // View Top Gainer Stocks for a given sector
@@ -183,7 +183,7 @@ app.post('/top_gainers', function(req, res, next) {
         .limit(10)
         .toArray(function(err, result){
             assert.equal(null, err);
-            res.render('top_gainers', {title: "Top Gainers", gainers: result});
+            res.render('top_gainers', {title: "Top Gainers", user: req.session.userDetails, gainers: result});
         });
     });
 });
@@ -228,7 +228,7 @@ app.post('/top_losers', function(req, res, next) {
         .limit(10)
         .toArray(function(err, result){
             assert.equal(null, err);
-            res.render('top_losers', {title: "Top Losers", losers: result});
+            res.render('top_losers', {title: "Top Losers", user: req.session.userDetails, losers: result});
         });
     });
 });

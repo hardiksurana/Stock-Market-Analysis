@@ -6,42 +6,63 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title> <%= title %> </title>
 
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/stylesheets/users.css"/>
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     </head>
     <body>
-        <h2> Sign Up </h2>
-        <form method="post" action="/users/signup">
-            <fieldset class="form-group">
-                <label for="username1">Username</label>
-                <input type="text" class="form-control" id="username1" name="username" placeholder="Enter Username">
-            </fieldset>
-            <fieldset class="form-group">
-                <label for="email1">Email Address</label>
-                <input type="email" class="form-control" id="email1" name="email" placeholder="Enter email">
-            </fieldset>
-            <fieldset class="form-group">
-                <label for="pass">Password</label>
-                <input type="password" class="form-control" id="pass" name="password" placeholder="Password">
-            </fieldset>
-            <input type="submit" class="btn btn-primary" value="Sign Up">
-        </form>
+        <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand" href="/">ShareTiger</a>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link disabled" href="/users/dashboard">Dashboard</a>
+            </div>
+          </div>
+        </nav>
 
-        <h2> Login </h2>
-        <form method="post" action="/users/login">
-            <fieldset class="form-group">
-                <label for="email1">Email Address</label>
-                <input type="email" class="form-control" id="email1" name="email" placeholder="Enter email">
-            </fieldset>
-            <fieldset class="form-group">
-                <label for="pass">Password</label>
-                <input type="password" class="form-control" id="pass" name="password" placeholder="Password">
-            </fieldset>
-            <input type="submit" class="btn btn-primary" value="Login">
-        </form>
+        <div id="signup">
+          <h2>Sign Up</h2>
+          <br/>
+          <form method="post" action="/users/signup" >
+              <fieldset class="form-group">
+                  <label for="username1">Username</label>
+                  <input type="text" class="input-group-addon" id="username1" name="username" placeholder="Enter Username" required>
+              </fieldset>
+              <fieldset class="form-group">
+                  <label for="email1">Email Address</label>
+                  <input type="email" class="input-group-addon" id="email1" name="email" placeholder="Enter email" required>
+              </fieldset>
+              <fieldset class="form-group">
+                  <label for="pass">Password</label>
+                  <input type="password" class="input-group-addon" id="pass" name="password" placeholder="Password" required>
+              </fieldset>
+              <input type="submit" class="btn btn-success" value="Sign Up">
+          </form>
+        </div>
 
-        <!-- jQuery first, then Tether, then Bootstrap JS. -->
-        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        <div id="login">
+          <h2>Login</h2>
+          <br/>
+          <form method="post" action="/users/login">
+              <fieldset class="form-group">
+                  <label for="email1">Email Address</label>
+                  <input type="email" class="input-group-addon" id="email1" name="email" placeholder="Enter email" required>
+              </fieldset>
+              <fieldset class="form-group">
+                  <label for="pass">Password</label>
+                  <input type="password" class="input-group-addon" id="pass" name="password" placeholder="Password" required>
+              </fieldset>
+              <input type="submit" class="btn btn-success" value="Login">
+          </form>
+        </div>
+          <!-- jQuery first, then Tether, then Bootstrap JS. -->
+          <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     </body>
 </html>
